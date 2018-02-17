@@ -51,6 +51,19 @@ def print_separator(sep_length)
 end
 
 
+def export_inventory(inventory, filename)
+    inv_file = File.new(filename, "w")
+    if inv_file
+        for key, value in inventory
+            inv_file.syswrite("#{key}:#{value}\r\n")
+        end
+        inv_file.close
+    else
+        puts "Unable to open file!"
+    end
+end
+
+
 if __FILE__ == $0
     inv = {"apple" => 3, "gold coins" => 25}
     display_inventory(inv)
@@ -58,4 +71,5 @@ if __FILE__ == $0
     display_inventory(inv)
     add_to_inventory(inv, ["apple", "apple", "rope"])
     print_inventory(inv)
+    export_inventory(inv, "test.txt")
 end
