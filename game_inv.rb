@@ -64,12 +64,31 @@ def export_inventory(inventory, filename)
 end
 
 
+def import_inventory(filename)
+    inv_file = File.new(filename, "r")
+    content = []
+    inventory = {}
+    if inv_file
+        content = IO.readlines(filename)
+        inv_file.close
+    else
+        puts "Unable to open file!"
+    end
+    for item in content
+        parts = item.split(":")
+        inventory[parts[0]] = parts[1].to_i
+    end
+    return inventory
+end
+
+
+
 if __FILE__ == $0
     inv = {"apple" => 3, "gold coins" => 25}
     display_inventory(inv)
-    add_to_inventory(inv, ["gold coins", "torch", "chalk"])
-    display_inventory(inv)
-    add_to_inventory(inv, ["apple", "apple", "rope"])
+    add_to_inventory(inv, ["gold coins", "torch", "chalk", "rope"])
     print_inventory(inv)
-    export_inventory(inv, "test.txt")
+    export_inventory(inv, "game_inventory.txt")
+    inv = import_inventory("game_inventory.txt")
+    print_inventory(inv, "asc")
 end
