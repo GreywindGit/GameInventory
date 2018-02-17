@@ -20,19 +20,34 @@ def add_to_inventory(inventory, added_items)
 end
 
 
-def print_inventory(inventory)
+def print_inventory(inventory, order=nil)
+    case order
+        when "asc"
+            inventory = inventory.sort_by{|key, value| value}.to_h
+        when "desc"
+            inventory = inventory.sort_by {|key, value| value}.reverse.to_h
+        end
     amount_offset = inventory.values.map {|x| x.to_s.length}.max + 5
-    item_offset = inventory.keys.map {|x| x.length}.max + 5
+    item_offset = inventory.keys.map {|x| x.length}.max + 7
     puts "Inventory:"
-    puts " " * (amount_offset - "count".length) + "count" + 
-         " " * (item_offset - "item name".length) + "item name"
-    puts "-" * (amount_offset + item_offset)
+    print_record(amount_offset, item_offset, "count", "item name")
+    print_separator(amount_offset + item_offset)
     for key, value in inventory
-        puts " " * (amount_offset - value.to_s.length) + "#{value}" +
-             " " * (item_offset - key.length) + "#{key}"
+        print_record(amount_offset, item_offset, value.to_s, key)
     end
-    puts "-" * (amount_offset + item_offset)
+    print_separator(amount_offset + item_offset)
     puts "Total number of items: #{inventory.values.sum}"
+end
+
+
+def print_record(offset1, offset2, value1, value2)
+    puts " " * (offset1 - value1.length) + "#{value1}" +
+         " " * (offset2 - value2.length) + "#{value2}"
+end
+
+
+def print_separator(sep_length)
+    puts "-" * sep_length
 end
 
 
