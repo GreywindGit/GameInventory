@@ -82,7 +82,6 @@ def import_inventory(filename)
 end
 
 
-
 if __FILE__ == $0
     inv = {"apple" => 3, "gold coins" => 25}
     display_inventory(inv)
