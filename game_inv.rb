@@ -55,7 +55,7 @@ def export_inventory(inventory, filename)
     inv_file = File.new(filename, "w")
     if inv_file
         for key, value in inventory
-            inv_file.syswrite("#{key}:#{value}\r\n")
+            inv_file.puts("#{key}:#{value}")
         end
         inv_file.close
     else
